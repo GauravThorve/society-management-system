@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    h4 {
+    margin-bottom: 15px;
+}
+
+table {
+    width: 80%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+table th {
+    background-color: #f0f0f0;
+    padding: 8px;
+    text-align: left;
+}
+
+table td {
+    padding: 8px;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+</style>
+<h4>Maintenance Bills</h4>
+<table border="1">
+    <tr>
+        <th>Society Name</th>
+        <th>Flat</th>
+        <th>Month</th>
+        <th>Amount</th>
+        <th>Status</th>
+    </tr>
+    {% for bill in bills %}
+    <tr>
+        <td>{{ society_name }}</td>
+        <td>{{ bill.flat }}</td>
+        <td>{{ bill.month }}</td>
+        <td>₹ {{ bill.amount }}</td>
+        <td>
+            {% if bill.is_paid %}
+                <span style="color:green;">Paid</span>
+            {% else %}
+                <span style="color:red;">Unpaid</span>
+            {% endif %}
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">No bills found</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

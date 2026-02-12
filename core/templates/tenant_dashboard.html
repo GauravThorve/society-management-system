@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    h3 {
+    margin-top: 20px;
+}
+
+p {
+    margin: 5px 0;
+}
+
+table {
+    width: 60%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    margin-top: 10px;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f0f0f0;
+}
+
+tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+</style>
+
+
+
+<h3>Tenant Dashboard</h3>
+<p>Welcome, {{ request.user.email| cut:"@gmail.com" |upper }}</p>
+
+<hr>
+
+{% if flat %}
+<h3>Flat Details</h3>
+<p><b>Flat Number - </b></p>{{ flat.flat.Number}}
+<p><b>Owner Name - </b></p>{{ flat.owner.email}}
+
+<hr>
+<h3>
+    Maintenance Bills
+</h3>
+
+{% if bills %}
+<table border="1" cellpaddind="10">
+    <tr>
+        <th>Month</th>
+        <th>Amount</th>
+        <th>Status</th>
+    </tr>
+    {% for bill in bills %}
+    <tr>
+        <td>{{bill.Month}}</td>
+        <td>{{bill.Amount}}</td>
+        <td>{{bill.Status}}</td>
+        <td>{{bill.is_paid}}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+{%else%}
+<p>No Bills are Assigned By Your Name</p>
+{% endif %}
+
+{% else %}
+<p>No flat assigned to you.</p>
+{% endif %}
+
+{% endblock %}

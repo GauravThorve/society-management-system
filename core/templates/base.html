@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Society Management</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; 
+        }
+
+        
+        .navbar {
+            background-color: blue;
+            padding: 10px;
+        }
+        .navbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        .navbar li {
+            margin-right: 20px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+        .right {
+            margin-left: auto;
+        }
+
+        
+        .content {
+            flex: 1; 
+            padding: 20px;
+        }
+
+        
+        footer {
+            background-color: rgb(15, 109, 171);
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 2%;
+            flex-shrink: 0; 
+        }
+    </style>
+</head>
+<body>
+
+{% if request.user.is_authenticated %}
+<div class="navbar">
+    <ul>
+        <li><a href="{% url 'login'%}">Home</a></li>
+
+        {% if request.user.role == "ADMIN" %}
+            <li><a href="{% url 'admin_dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'create_owner' %}">Create Owner</a></li>
+            <li><a href="{% url 'create_tenant' %}">Create Tenant</a></li>
+            <li><a href="{% url 'create_bill' %}">Create Bill</a></li>
+        {% endif %}
+
+        {% if request.user.role == "OWNER" %}
+            <li><a href="{% url 'owner_dashboard' %}">My Dashboard</a></li>
+            <li><a href="{% url 'view_bills' %}">My Bills</a></li>
+        {% endif %}
+
+        {% if request.user.role == "TENANT" %}
+            <li><a href="{% url 'tenant_dashboard' %}">My Dashboard</a></li>
+            <li><a href="{% url 'view_bills' %}">My Bills</a></li>
+        {% endif %}
+
+        <li class="right">
+            <a href="{% url 'logout' %}">Logout ({{ request.user.email | cut:"@gmail.com" | upper }})</a>
+        </li>
+    </ul>
+</div>
+{% endif %}
+
+
+<div class="content">
+    {% block content %}
+    {% endblock %}
+</div>
+
+
+<footer>
+    <p>Made with &hearts; by GauravThorve</p>
+    <p>thorvegaurav4@gmail.com</p>
+</footer>
+
+</body>
+</html>
